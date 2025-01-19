@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treinamento NR-34</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-form, .scenario {
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        label, p {
+            margin-bottom: 10px;
+        }
+        input, textarea, select, button {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .login-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .scenario-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .scenario-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Treinamento NR-34</h1>
+        <div id="login-section" class="login-form">
+            <div class="login-image">
+                <img src="imagens/login.webp" alt="Imagem de treinamento NR-34">
+            </div>
+            <h2>Login</h2>
+            <label for="login">Login:</label>
+            <input type="text" id="login" placeholder="Digite seu login">
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" placeholder="Digite sua senha">
+
+            <button onclick="validateLogin()">Entrar</button>
+        </div>
+
+        <div id="scenario-section" class="hidden">
+            <h2 id="group-title"></h2>
+            <div id="scenario-image" class="scenario-image hidden">
+                <img src="" alt="Imagem do cenário" id="scenario-image-tag">
+            </div>
+            <p id="scenario-description"></p>
+
+            <h3>Tarefas do Grupo</h3>
+            <form id="task-form">
+                <label for="risks">Quais riscos o grupo consegue identificar nesse cenário?</label>
+                <textarea id="risks" rows="4"></textarea>
+
+                <label for="classification">Como o grupo classifica esses riscos?</label>
+                <select id="classification">
+                    <option value="">Selecione a classificação</option>
+                    <option value="Baixa">Baixa</option>
+                    <option value="Média">Média</option>
+                    <option value="Alta">Alta</option>
+                </select>
+
+                <label for="measures">Quais medidas preventivas poderiam ser adotadas?</label>
+                <textarea id="measures" rows="4"></textarea>
+
+                <button type="button" onclick="submitTask()">Enviar Respostas</button>
+            </form>
+        </div>
+
+        <div id="feedback-section" class="hidden">
+            <h2>Obrigado por participar!</h2>
+            <p>Sua análise foi enviada com sucesso. Agradecemos sua dedicação ao treinamento NR-34.</p>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = {
+            "GrupoA": {
+                title: "Grupo A - Soldagem e Corte Térmico",
+                description: "Uma equipe está realizando soldagem e corte térmico em uma embarcação no estaleiro. O ambiente inclui áreas confinadas e estruturas metálicas próximas, com presença de inflamáveis.",
+                image: "imagens/AQUENTE.webp"
+            },
+            "GrupoB": {
+                title: "Grupo B - Pintura e Manutenção em Altura",
+                description: "Operários estão realizando pintura e manutenção na estrutura superior de um navio, a mais de 2 metros de altura, utilizando cinto de segurança e linhas de vida.",
+                image: "imagens/ALTURA.webp"
+            },
+            "GrupoC": {
+                title: "Grupo C - Movimentação de Cargas",
+                description: "Um guindaste está sendo utilizado para movimentar grandes peças metálicas para a construção de uma embarcação. A área está delimitada, mas com circulação de trabalhadores próximos.",
+                image: "imagens/MOV_CARGAS.webp"
+            },
+            "GrupoD": {
+                title: "Grupo D - Montagem de Andaimes",
+                description: "Os trabalhadores estão montando andaimes para acessar áreas superiores do casco de um navio. A área de trabalho é externa, com vento moderado e solo irregular.",
+                image: "imagens/ANDAIME.webp"
+            }
+        };
+
+        const credentials = {
+            "GrupoA": "Aquente",
+            "GrupoB": "Altura",
+            "GrupoC": "Mcarga",
+            "GrupoD": "Andaime"
+        };
+
+        function validateLogin() {
+            const login = document.getElementById("login").value;
+            const password = document.getElementById("password").value;
+
+            if (credentials[login] && credentials[login] === password) {
+                showScenario(login);
+            } else {
+                alert("Login ou senha inválidos. Tente novamente.");
+            }
+        }
+
+        function showScenario(group) {
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("scenario-section").classList.remove("hidden");
+
+            const scenario = scenarios[group];
+            document.getElementById("group-title").textContent = scenario.title;
+            document.getElementById("scenario-description").textContent = scenario.description;
+
+            if (scenario.image) {
+                const imageTag = document.getElementById("scenario-image-tag");
+                imageTag.src = scenario.image;
+                document.getElementById("scenario-image").classList.remove("hidden");
+            }
+        }
+
+        function submitTask() {
+            alert("Respostas enviadas com sucesso!");
+            document.getElementById("scenario-section").classList.add("hidden");
+            document.getElementById("feedback-section").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
